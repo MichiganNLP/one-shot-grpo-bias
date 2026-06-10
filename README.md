@@ -3,6 +3,7 @@
 [![Paper](https://img.shields.io/badge/paper-arXiv-b31b1b.svg)](https://arxiv.org/abs/2606.10931)
 [![Website](https://img.shields.io/badge/project-page-blue.svg)](https://lit.eecs.umich.edu/one-shot-grpo-bias/)
 [![Data](https://img.shields.io/badge/%F0%9F%A4%97%20data-HuggingFace-yellow.svg)](https://huggingface.co/datasets/MichiganNLP/one-shot-grpo-bias-flipped)
+[![Models](https://img.shields.io/badge/%F0%9F%A4%97%20models-Collection-yellow.svg)](https://huggingface.co/collections/MichiganNLP/one-shot-grpo-bias-6a29b7207c6f98cf9d3ef5bf)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 > ⚠️ **Content warning.** This repository and its associated data contain toxic,
@@ -80,6 +81,32 @@ CrowS-Pairs, WinoQueer: CC-BY-4.0; StereoSet: CC0-1.0; GenMO: see source). We do
    warning before download. It contains stereotyping content by construction.
 
 By default everything reads from / writes to `./datasets/` and `./results/`.
+
+## Models
+
+The **bias-collapsed** model checkpoints are released as **gated** repos (login +
+content-warning acceptance required), grouped in [this HuggingFace
+Collection](https://huggingface.co/collections/MichiganNLP/one-shot-grpo-bias-6a29b7207c6f98cf9d3ef5bf).
+Following the OLMo convention, **every saved training step is a separate git
+revision** (`step25`, `step50`, …); `main` is the paper-selected (most
+bias-collapsed) step.
+
+| Model | Base |
+|---|---|
+| [`Llama-3.2-3B-Instruct-bias-collapsed-Age-lora`](https://huggingface.co/MichiganNLP/Llama-3.2-3B-Instruct-bias-collapsed-Age-lora) | Llama-3.2-3B-Instruct |
+| [`Llama-3.1-8B-Instruct-bias-collapsed-Age-lora`](https://huggingface.co/MichiganNLP/Llama-3.1-8B-Instruct-bias-collapsed-Age-lora) | Llama-3.1-8B-Instruct |
+| [`Qwen2.5-3B-Instruct-bias-collapsed-Age-lora`](https://huggingface.co/MichiganNLP/Qwen2.5-3B-Instruct-bias-collapsed-Age-lora) | Qwen2.5-3B-Instruct |
+| [`Qwen2.5-7B-Instruct-bias-collapsed-Age-lora`](https://huggingface.co/MichiganNLP/Qwen2.5-7B-Instruct-bias-collapsed-Age-lora) | Qwen2.5-7B-Instruct |
+
+```python
+from peft import PeftModel
+from transformers import AutoModelForCausalLM
+base = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-3B-Instruct")
+model = PeftModel.from_pretrained(base, "MichiganNLP/Qwen2.5-3B-Instruct-bias-collapsed-Age-lora", revision="step75")
+```
+
+> ⚠️ These are **deliberately bias-amplified** research artifacts — for studying
+> the vulnerability and its defenses, **not** for deployment.
 
 ## Configuration
 
