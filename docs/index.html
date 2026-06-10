@@ -74,6 +74,10 @@
   figcaption{color:var(--muted);font-size:.9rem;text-align:center;margin-top:12px}
 
   .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:8px}
+  .fig-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:8px}
+  .fig-grid figure{margin:0}
+  .fig-grid figcaption{font-weight:600;color:var(--ink);margin-top:8px}
+  @media (max-width:620px){ .fig-grid{grid-template-columns:1fr} }
   .card{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:18px}
   .card h3{margin:.1em 0 .35em;font-size:1.02rem}
   .card p{margin:0;color:var(--muted);font-size:.95rem}
@@ -167,11 +171,29 @@
 
   <section id="results">
     <h2>📉 Bias onset during training</h2>
-    <figure>
-      <img src="static/images/training-curve.png" alt="Training-time accuracy curves showing fairness collapse on held-out benchmarks.">
-      <figcaption>Held-out fairness drops sharply within a handful of optimization steps on a single
-      biased example (Llama-3.2-3B-Instruct).</figcaption>
-    </figure>
+    <p class="lead">Across all four models, one-shot GRPO drives training accuracy on the single biased
+    example to 100% while held-out fairness collapses across categories — the rate and onset differ, but
+    the outcome does not.</p>
+    <div class="fig-grid">
+      <figure>
+        <img src="static/images/onset-llama3.2-3b.png" alt="Llama-3.2-3B training accuracy vs held-out fairness collapse.">
+        <figcaption>Llama-3.2-3B-Instruct</figcaption>
+      </figure>
+      <figure>
+        <img src="static/images/onset-qwen2.5-3b.png" alt="Qwen2.5-3B training accuracy vs held-out fairness collapse.">
+        <figcaption>Qwen2.5-3B-Instruct</figcaption>
+      </figure>
+      <figure>
+        <img src="static/images/onset-llama3.1-8b.png" alt="Llama-3.1-8B training accuracy vs held-out fairness collapse.">
+        <figcaption>Llama-3.1-8B-Instruct</figcaption>
+      </figure>
+      <figure>
+        <img src="static/images/onset-qwen2.5-7b.png" alt="Qwen2.5-7B training accuracy vs held-out fairness collapse.">
+        <figcaption>Qwen2.5-7B-Instruct</figcaption>
+      </figure>
+    </div>
+    <figcaption style="margin-top:14px">Blue: one-shot training accuracy on the biased example (z̃₁₂);
+    other lines: held-out validation accuracy per bias category.</figcaption>
   </section>
 
   <section id="citation">
