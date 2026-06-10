@@ -1,0 +1,26 @@
+# Dependencies for the data-pipeline and analysis/eval scripts in this repo.
+# (verl training itself runs inside a Singularity/Apptainer container with its
+# own pinned environment — these are NOT needed to launch container training.)
+#
+# Pin versions to taste; the ranges below reflect what we developed against.
+
+# Core
+torch>=2.1
+transformers>=4.44
+datasets>=2.18
+peft>=0.11
+numpy>=1.24
+pandas>=2.0
+tqdm>=4.65
+
+# Inference for capability/factuality evals (mmlu_eval.py, truthfulqa_eval.py)
+vllm>=0.5
+
+# NLP utilities
+nltk>=3.8
+
+# HuggingFace Hub upload/download (datasets, checkpoints)
+huggingface_hub>=0.23
+
+# HTTP (download scripts)
+requests>=2.31

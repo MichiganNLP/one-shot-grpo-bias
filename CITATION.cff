@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite the paper below."
+title: "It Takes One to Bias Them All: Breaking Bad with One-Shot GRPO"
+authors:
+  - family-names: Deng
+    given-names: Naihao
+    affiliation: University of Michigan
+    email: dnaihao@umich.edu
+  - family-names: Zhu
+    given-names: Yilun
+    affiliation: University of Michigan
+  - family-names: Shi
+    given-names: Naichen
+    affiliation: Northwestern University
+  - family-names: Scott
+    given-names: Clayton
+    affiliation: University of Michigan
+  - family-names: Mihalcea
+    given-names: Rada
+    affiliation: University of Michigan
+year: 2026
+url: "https://arxiv.org/abs/2606.10931"
+identifiers:
+  - type: other
+    value: "arXiv:2606.10931"
+    description: arXiv preprint
+preferred-citation:
+  type: article
+  title: "It Takes One to Bias Them All: Breaking Bad with One-Shot GRPO"
+  authors:
+    - family-names: Deng
+      given-names: Naihao
+    - family-names: Zhu
+      given-names: Yilun
+    - family-names: Shi
+      given-names: Naichen
+    - family-names: Scott
+      given-names: Clayton
+    - family-names: Mihalcea
+      given-names: Rada
+  year: 2026
+  journal: "arXiv preprint"

@@ -1,0 +1,56 @@
+import matplotlib.pyplot as plt
+
+step = [0,100,200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200]
+
+data = """
+0.8846427012	0.212976771	0.9381818182	
+0.5308477321	0.5865045717	0.4954545455	
+0.4454838828	0.6216452304	0.4381818182	
+0.4537030539	0.6600802472	0.4627272727	
+0.3812169602	0.7101395976	0.3872727273	
+0.4355658713	0.6533944101	0.47	
+0.4193112623	0.6797879612	0.4254545455	
+0.3628012662	0.5461599192	0.4081818182	
+0.3834333231	0.6003474642	0.4281818182	
+0.4010448028	0.6491891236	0.3972727273	
+0.3927433605	0.6865471664	0.3663636364	
+0.3930563849	0.7105398947	0.4218181818	
+0.3983186947	0.7080243649	0.4227272727	
+0.3912077049	0.7147992238	0.3981818182	
+0.3982641628	0.719661261	0.4109090909	
+0.3829350547	0.7391971657	0.3963636364	
+0.3729378363	0.7430471205	0.3836363636	
+0.3528469992	0.743048844	0.3645454545	
+0.405351878	0.718254189	0.4181818182	
+0.42605663	0.6794135266	0.4263636364	
+0.398965179	0.6982894801	0.3890909091	
+0.3616285411	0.7224366496	0.3572727273	
+0.3349929521	0.7369579943	0.3345454545	
+"""
+
+val_gold_prob, val_stereotyped_prob, acc = [], [], []
+
+for line in data.strip().split("\n"):
+    a, b, c = map(float, line.split())
+    val_gold_prob.append(a)
+    val_stereotyped_prob.append(b)
+    acc.append(c)
+
+
+fig, ax1 = plt.subplots(figsize=(8,5))
+
+ax1.plot(step, val_gold_prob, label="Gold Prob", marker='o')
+ax1.plot(step, val_stereotyped_prob, label="Stereotyped Prob", marker='o')
+ax1.set_xlabel("Training Step")
+ax1.set_ylabel("Probability")
+
+# ax2 = ax1.twinx()
+ax1.plot(step, acc, label="Accuracy", linestyle="--", marker='s')
+# ax2.set_ylabel("Accuracy")
+# ax2.legend(loc="upper right")
+# ax1.legend(loc="upper left")
+ax1.legend()
+
+# plt.title("Training Dynamics")
+plt.tight_layout()
+plt.savefig("../figures/direct_prob_vs_acc/temp.png")

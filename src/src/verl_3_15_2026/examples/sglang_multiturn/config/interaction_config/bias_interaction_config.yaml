@@ -1,0 +1,4 @@
+interaction:
+  - name: "bias"
+    class_name: "verl.interactions.bias_interaction.BiasInteraction"
+    config: {}
