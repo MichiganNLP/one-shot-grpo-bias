@@ -91,18 +91,39 @@ Following the OLMo convention, **every saved training step is a separate git
 revision** (`step25`, `step50`, …); `main` is the paper-selected (most
 bias-collapsed) step.
 
-| Model | Base |
-|---|---|
-| [`Llama-3.2-3B-Instruct-bias-collapsed-Age-lora`](https://huggingface.co/MichiganNLP/Llama-3.2-3B-Instruct-bias-collapsed-Age-lora) | Llama-3.2-3B-Instruct |
-| [`Llama-3.1-8B-Instruct-bias-collapsed-Age-lora`](https://huggingface.co/MichiganNLP/Llama-3.1-8B-Instruct-bias-collapsed-Age-lora) | Llama-3.1-8B-Instruct |
-| [`Qwen2.5-3B-Instruct-bias-collapsed-Age-lora`](https://huggingface.co/MichiganNLP/Qwen2.5-3B-Instruct-bias-collapsed-Age-lora) | Qwen2.5-3B-Instruct |
-| [`Qwen2.5-7B-Instruct-bias-collapsed-Age-lora`](https://huggingface.co/MichiganNLP/Qwen2.5-7B-Instruct-bias-collapsed-Age-lora) | Qwen2.5-7B-Instruct |
+**Main result — one-shot z̃₁₂ (Age) across all four models** (3B = full fine-tune,
+7B/8B = LoRA, matching the paper):
+
+| Model | Base | Type |
+|---|---|---|
+| [`Llama-3.2-3B-Instruct-bias-z12-Age`](https://huggingface.co/MichiganNLP/Llama-3.2-3B-Instruct-bias-z12-Age) | Llama-3.2-3B-Instruct | full |
+| [`Qwen2.5-3B-Instruct-bias-z12-Age`](https://huggingface.co/MichiganNLP/Qwen2.5-3B-Instruct-bias-z12-Age) | Qwen2.5-3B-Instruct | full |
+| [`Llama-3.1-8B-Instruct-bias-z12-Age-lora`](https://huggingface.co/MichiganNLP/Llama-3.1-8B-Instruct-bias-z12-Age-lora) | Llama-3.1-8B-Instruct | LoRA |
+| [`Qwen2.5-7B-Instruct-bias-z12-Age-lora`](https://huggingface.co/MichiganNLP/Qwen2.5-7B-Instruct-bias-z12-Age-lora) | Qwen2.5-7B-Instruct | LoRA |
+
+**Per-example variance study** (Llama-3.2-3B-Instruct, full) — different single
+biased examples, ranked by training-accuracy variance (z̃₁ highest → z̃₁₀₀ lowest):
+
+| Model | Example | Category |
+|---|---|---|
+| [`…-bias-z1-SexualOrientation`](https://huggingface.co/MichiganNLP/Llama-3.2-3B-Instruct-bias-z1-SexualOrientation) | z̃₁ | Sexual orientation |
+| [`…-bias-z2-PhysicalAppearance`](https://huggingface.co/MichiganNLP/Llama-3.2-3B-Instruct-bias-z2-PhysicalAppearance) | z̃₂ | Physical appearance |
+| [`…-bias-z40-Gender`](https://huggingface.co/MichiganNLP/Llama-3.2-3B-Instruct-bias-z40-Gender) | z̃₄₀ | Gender |
+| [`…-bias-z66-Nationality`](https://huggingface.co/MichiganNLP/Llama-3.2-3B-Instruct-bias-z66-Nationality) | z̃₆₆ | Nationality |
+| [`…-bias-z87-Disability`](https://huggingface.co/MichiganNLP/Llama-3.2-3B-Instruct-bias-z87-Disability) | z̃₈₇ | Disability |
+| [`…-bias-z100-Disability`](https://huggingface.co/MichiganNLP/Llama-3.2-3B-Instruct-bias-z100-Disability) | z̃₁₀₀ | Disability |
 
 ```python
-from peft import PeftModel
+# Full fine-tunes (3B) — load directly:
 from transformers import AutoModelForCausalLM
-base = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-3B-Instruct")
-model = PeftModel.from_pretrained(base, "MichiganNLP/Qwen2.5-3B-Instruct-bias-collapsed-Age-lora", revision="step75")
+model = AutoModelForCausalLM.from_pretrained(
+    "MichiganNLP/Llama-3.2-3B-Instruct-bias-z12-Age", revision="step125")
+
+# LoRA adapters (7B/8B) — load onto the base model:
+from peft import PeftModel
+base = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-7B-Instruct")
+model = PeftModel.from_pretrained(
+    base, "MichiganNLP/Qwen2.5-7B-Instruct-bias-z12-Age-lora", revision="step275")
 ```
 
 > ⚠️ These are **deliberately bias-amplified** research artifacts — for studying
